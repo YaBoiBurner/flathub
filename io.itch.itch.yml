@@ -1,0 +1,28 @@
+app-id: io.itch.itch
+base: org.electronjs.Electron2.BaseApp
+base-version: "21.08"
+runtime: org.freedesktop.Platform
+runtime-version: "21.08"
+sdk: org.freedesktop.Sdk
+command: itch
+finish-args:
+  - --share=network
+  - --socket=x11
+  - --socket=pulseaudio
+  - --device=all
+  - --persist=.itch
+modules:
+  - name: Itch
+    buildsystem: simple
+    build-commands:
+      - install -Dm755 default ${FLATPAK_DEST}/bin/itch-setup
+      - install -Dm755 itch.sh ${FLATPAK_DEST}/bin/itch
+      - install -Dm644 io.itch.itch.desktop ${FLATPAK_DEST}/share/applications/io.itch.itch.desktop
+    sources:
+      - type: file
+        url: https://broth.itch.ovh/itch-setup/linux-amd64/1.26.0/unpacked/default
+        sha256: c7a13db7234ca908bcfb60ed5369b5c02b0a795e5e5490f68eeacb5a637a2162
+      - type: file
+        path: io.itch.itch.desktop
+      - type: file
+        path: itch.sh
